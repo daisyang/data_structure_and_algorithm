@@ -29,6 +29,8 @@ def MiddleNode (root):
 		return slow
 
 def Ispalindrome (root):
+	if root is None or root.next is None:
+		return True
 	middle = MiddleNode(root)
 	middle = reverse(middle)
 	while (middle):
@@ -41,10 +43,10 @@ def Ispalindrome (root):
 def Test():
 	l = LinkedList(1)
 	l.AddNode(2)
-	# for i in range (1,5):
-	# 	l.AddNode(i)
-	# for i in range (5,-1,-1):
-	# 	l.AddNode(i)
+	for i in range (1,5):
+		l.AddNode(i)
+	for i in range (5,-1,-1):
+		l.AddNode(i)
 
 	l.Print()	
 	print Ispalindrome(l.root)
