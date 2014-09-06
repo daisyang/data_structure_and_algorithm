@@ -1,0 +1,41 @@
+# Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i.e., implement rand7() using rand5()).
+
+Given a method that generates a random number between 1 and 7, write a method to generate a random number between 1 and 5.
+
+The most important of the question is to make sure every number it generates has an equal probability. Since the given method generates the set that is equally distributed and contains 1-5, we can easily do :
+<pre class="brush: python">
+def Rand5():
+	x = sys.maxint
+	while (x > 5):
+		x = Rand7() # discard numbers bigger than 5
+	return x
+</pre>
+
+Thus, generating a random number from  a larger set is not hard. But what if the question changes to given Rand5(), write method of Rand7() ?
+Then , we need to map the set from Rand5() to a larger set that contains 1 -7, and again use the above method to generate random number from 1 - 7 . <br>
+
+We can have the combination of 5 * (Rand5() -1 ) + Rand5() .
+Rand5() -1 generates 0 - 4 </br>
+5*Rand5() -1 generates 0,5,15,20</br>
+5*Rand5() -1 + Rand5() generates 0,5,15,20 and 1,2,3,4,5 which is the total set of 0 - 25 <br>
+This equation contains the number 1-7 , so we can do :
+<pre class="brush: python">
+def Rand7():
+	x = sys.maxin()
+	while (x > 7):
+		x = 5 * (Rand5() -1 ) + Rand5()
+	return x
+</pre>
+According to above algorithm, we can generalize a way to create Randb() from Randa() when b > a:
+Map a to a^2 by equation : a * (Randa -1 ) + Randa. If a^2 is still smaller than b , a^3 = a * (Randa^2-1)+Randa ..... a^k = a * (Randa^k-1) +Randa
+
+The above Rand7() has a small problem, since the number goes from 1 - 25, lots of newly generated numbers will be discarded by the while condition. We can expand the condition to the largest multiple of 7 that is smaller than 25. It is optimized to :
+<pre class="brush: python">
+def Rand7():
+	x = sys.maxin()
+	while (x > 21):
+		x = 5 * (Rand5() -1 ) + Rand5()
+	return (x%7)+1
+</pre>
+The function chooses numbers from 1 -21 and (x%7)+1 will be mapped to 1-7,1-7,1-7, which is still equally distributed
+

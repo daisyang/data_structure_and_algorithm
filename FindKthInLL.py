@@ -1,4 +1,5 @@
 #2.2 Implement an algorithm to find the kth to last element of a singly linked list.
+
 class Node:
 	def __init__(self,val=None,Next=None):
 		self.val = val
@@ -7,16 +8,16 @@ class Node:
 		return str(self.val)
 
 
-def RemovelastK(root,K):
+def FindlastK(root,K):
 	if (root==None):
-		return
+		return rot
 	fast = root
 	slow = root
 
 	# Make sure K is not larger than the length of the linked list
 	for i in range (0,K):
 		if fast is None:
-			return
+			return None
 		fast=fast.Next
 		
 	while (fast):
@@ -33,7 +34,7 @@ def Print (root):
 		root=root.Next
 
 
-def Test():
+def main():
 	print "start in here "
 	root = Node (0)
 	prev = root
@@ -43,10 +44,11 @@ def Test():
 		prev=cur
 	print "initial linked list"
 	Print(root)
-	newroot = RemovelastK(root,3)
-	print "after RemovelastK"
-	Print(newroot)
-
-Test()
+	k = 10
+	newroot = FindlastK(root,k)
+	print "last, " , k , " :" , newroot
+	
+if __name__ == "__main__":
+	main()
 
 

@@ -7,38 +7,46 @@
 # Input:(6 -> 1 -> 7) + (2 -> 9 -> 5).Thatis,617 + 295.
 # Output: 9 -> 1 -> 2.That is, 912.
 
-from LinkedList import *
+class node:
+	def __init__(self,val,next = None):
+		self.val=val
+		self.next=next
 
-def AddLinkedlist(root1,root2):
-	current1 = root1
-	current2 = root2
-	output = Node(0)
-	result = output
+def AddLinkedlist(head1,head2):
+	current1 = head1
+	current2 = head2
+	output = node(0)
+	last = output
 	carry = 0
 	while (current1 is not None and current2 is not None):
 		val=current1.val+current2.val+carry
-		result.next = Node(val%10)
+		last.next = node(val%10)
 		carry = int (val/10)
-		result = result.next
+		last = last.next
 		current1 = current1.next
 		current2 = current2.next
-
+	
+	#Remember carry
 	while current1 :
 		val = current1.val + carry
-		result.next = Node(val%10)
+		last.next = node(val%10)
 		carry = int(val/10)
 		current1=current1.next
+		last = last.next
 
 	while current2:
 		val = current2.val + carry
-		result.next = Node (val%10)
+		last.next = node (val%10)
 		carry = int(val/10)
-		current2= current2.next	
+		current2= current2.next
+		last = last.next	
 	# don't forget the last carry !!
 	if (carry):
-		result.next = Node (carry)
+		last.next = node (carry)
 	return output.next
 
+
+#Follow up, forward order 
 def Sumup(node1,node2):
 	if node1 is None or node2 is None : return 0
 	carry = Sumup (node1.next,node2.next)
@@ -53,51 +61,45 @@ def length(node):
 		node = node.next
 	return count
 
-def Addnodes (node, count):
+def Addnodes (head, count):
 	for i in range (0,count):
-		newhead=Node(0)
-		newhead.next = node
-		node = newhead
-	return node
+		newhead=node(0)
+		newhead.next = head
+		head = newhead
+	return head
 
-def AddLinkedlist2 (root1,root2):
-	len1 = length(root1)
-	len2 = length(root2)
+def AddLinkedlist2 (head1,head2):
+	len1 = length(head1)
+	len2 = length(head2)
 	if len1 > len2 :
-		root2 = Addnodes(root2,len1-len2)
+		head2 = Addnodes(head2,len1-len2)
 	else:
-		root1 = Addnodes(root1,len2-len1)
+		head1 = Addnodes(head1,len2-len1)
 	
-	carry = Sumup(root1,root2)
+	carry = Sumup(head1,head2)
 	if carry:
-		newhead = Node(carry)
-		newhead.next = root1
-		root1=newhead
-	return root1
+		newhead = node(carry)
+		newhead.next = head1
+		head1=newhead
+	return head1
 
-def Test():
-	# l = LinkedList(7);
-	# l.AddNode(1)
-	# l.AddNode(6)
-	# r = LinkedList(5)
-	# r.AddNode(9)
-	# r.AddNode(8)
-
-	# result = AddLinkedlist(l.root,r.root)
-	# while result:
-	# 	print result
-	# 	result = result.next
-
-	t1= Node(7)
-	t1.next =Node(9)
-	t2= Node(1)
-	t2.next=Node(4)
-	# t2.next.next=Node(9)
+def main():
+	t1 = p = node(7)
+	for i in range(6,9):
+		p.next =node(i)
+		p=p.next
+	t2 = q = node(1)
+	for i in range(2):
+		q.next =node(i)
+		q=q.next
 	
-	newhead = AddLinkedlist2(t1,t2)
+	newhead = AddLinkedlist(t1,t2)
+	s = ""
 	while newhead:
-		print newhead
+		s+=str(newhead.val)
 		newhead=newhead.next
+	print '->'.join(s)
 
-Test()
+if __name__=="__main__":
+	main()
 
